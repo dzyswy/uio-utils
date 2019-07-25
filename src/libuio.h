@@ -84,7 +84,15 @@ int uio_write32 (struct uio_info_t* info, int map, unsigned long offset,
 		 uint32_t val);
 int uio_write64 (struct uio_info_t* info, int map, unsigned long offset,
 		 uint64_t val);
-
+int uio_clr32 (struct uio_info_t* info, int map_num, unsigned long offset,
+	       uint32_t mask);
+int uio_set32 (struct uio_info_t* info, int map_num, unsigned long offset,
+	       uint32_t mask);		   
+int uio_read_float (struct uio_info_t* info, int map_num, unsigned long offset,
+	       float *val);
+int uio_write_float (struct uio_info_t* info, int map_num, unsigned long offset,
+	       float val);
+		   
 /* irq functions */
 int uio_enable_irq (struct uio_info_t* info);
 int uio_disable_irq (struct uio_info_t* info);

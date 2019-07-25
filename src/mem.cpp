@@ -34,6 +34,14 @@
 
 #include "libuio_internal.h"
 
+
+union if_val {
+	uint32_t i;
+	float f;
+};
+
+
+
 /**
  * @defgroup libuio_mem libuio memory functions
  * @ingroup libuio_public
@@ -333,6 +341,71 @@ int uio_write64 (struct uio_info_t* info, int map_num, unsigned long offset,
 
 	*(volatile uint64_t *) ptr = val;
 
+	return 0;
+}
+
+int uio_clr32 (struct uio_info_t* info, int map_num, unsigned long offset,
+	       uint32_t mask)
+{
+	int ret;
+	uint32_t val;
+	ret = uio_read32(info, map_num, offset, &val);
+	if (ret < 0)
+		return -1;
+	
+	val &= (~mask);
+	
+	ret = uio_write32(info, map_num, offset, val);
+	if (ret < 0)
+		return -1;
+
+	return 0;
+}
+
+int uio_set32 (struct uio_info_t* info, int map_num, unsigned long offset,
+	       uint32_t mask)
+{
+	int ret;
+	uint32_t val;
+	ret = uio_read32(info, map_num, offset, &val);
+	if (ret < 0)
+		return -1;
+	
+	val |= mask;
+	
+	ret = uio_write32(info, map_num, offset, val);
+	if (ret < 0)
+		return -1;
+
+	return 0;
+}
+
+int uio_read_float (struct uio_info_t* info, int map_num, unsigned long offset,
+	       float *val)
+{
+	int ret;
+	union if_val tmp;
+	
+	ret = uio_read32(info, map_num, offset, &tmp.i);
+	if (ret < 0)
+		return -1;
+
+	*val = tmp.f;
+	
+	return 0;
+}
+
+int uio_write_float (struct uio_info_t* info, int map_num, unsigned long offset,
+	       float val)
+{
+	int ret;
+	union if_val tmp;
+	
+	tmp.f = val;
+	ret = uio_write32(info, map_num, offset, tmp.i);
+	if (ret < 0)
+		return -1;
+	
 	return 0;
 }
 

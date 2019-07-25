@@ -61,8 +61,8 @@ int main (int argc, char **argv)
 	}
 
 	textdomain (PACKAGE);
-
-	uio = uio_find_by_uio_name (argv [1]);
+	unsigned long uio_base_addr = strtol(argv [1], NULL, 16);
+	uio = uio_find_by_base_addr (uio_base_addr);
 	if (!uio)
 	{
 		printf (_("could not find UIO device >%s<.\n"), argv [1]);
@@ -87,7 +87,7 @@ int main (int argc, char **argv)
 				offset, strerror (errno));
 		}
 		else
-			printf ("%ld: %d\n", offset, val);
+			printf ("0x%lx: 0x%x\n", offset, val);
 	}
 
 	uio_close (uio);
@@ -97,5 +97,5 @@ int main (int argc, char **argv)
 
 void usage (char *name)
 {
-	printf (_("usage: %s <uio name> <offset> [<offset>...]\n"), name);
+	printf (_("usage: %s <uio base addr> <offset> [<offset>...]\n"), name);
 }

@@ -57,7 +57,7 @@ char **uio_list_attr (struct uio_info_t* info)
 	if (!info)
 	{
 		errno = EINVAL;
-		g_warning (_("uio_list_attr: %s"), g_strerror (errno));
+		g_warning (_("uio_list_attr: %s\n"), g_strerror (errno));
 		return NULL;
 	}
 
@@ -66,7 +66,7 @@ char **uio_list_attr (struct uio_info_t* info)
 	nr = scandir (path, &namelist, 0, alphasort);
 	if (nr < 0)
 	{
-		g_warning (_("scandir: %s"), g_strerror (errno));
+		g_warning (_("scandir: %s\n"), g_strerror (errno));
 		return NULL;
 	}
 
@@ -74,7 +74,7 @@ char **uio_list_attr (struct uio_info_t* info)
 	if (!list)
 	{
 		errno = ENOMEM;
-		g_warning (_("calloc: %s"), g_strerror (errno));
+		g_warning (_("calloc: %s\n"), g_strerror (errno));
 		goto out;
 	}
 
@@ -132,7 +132,7 @@ int uio_set_attr (struct uio_info_t* info, char *attr, char *value)
 
 	if (!info || !attr || !value) {
 		errno = EINVAL;
-		g_warning (_("uio_set_attr: %s"), g_strerror (errno));
+		g_warning (_("uio_set_attr: %s\n"), g_strerror (errno));
 		return -1;
 	}
 	snprintf (filename, PATH_MAX, "%s/attr/%s", info->path, attr);
@@ -140,7 +140,7 @@ int uio_set_attr (struct uio_info_t* info, char *attr, char *value)
 	fd = open (filename, O_WRONLY);
 	if (fd < 0)
 	{
-		g_warning (_("open: %s"), g_strerror (errno));
+		g_warning (_("open: %s\n"), g_strerror (errno));
 		return -1;
 	}
 
@@ -190,7 +190,7 @@ void *uio_get_bin_attr (struct uio_info_t* info, char *attr, size_t count)
 	if (fd < 0)
 	{
 		free (value);
-		g_warning (_("open: %s"), g_strerror (errno));
+		g_warning (_("open: %s\n"), g_strerror (errno));
 		return NULL;
 	}
 
@@ -224,7 +224,7 @@ int uio_set_bin_attr (struct uio_info_t* info, char *attr,
 
 	if (!info || !attr || !value) {
 		errno = EINVAL;
-		g_warning (_("uio_set_attr: %s"), g_strerror (errno));
+		g_warning (_("uio_set_attr: %s\n"), g_strerror (errno));
 		return -1;
 	}
 	snprintf (filename, PATH_MAX, "%s/attr/%s", info->path, attr);
@@ -232,7 +232,7 @@ int uio_set_bin_attr (struct uio_info_t* info, char *attr,
 	fd = open (filename, O_WRONLY);
 	if (fd < 0)
 	{
-		g_warning (_("open: %s"), g_strerror (errno));
+		g_warning (_("open: %s\n"), g_strerror (errno));
 		return -1;
 	}
 
